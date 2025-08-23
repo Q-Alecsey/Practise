@@ -1,0 +1,16 @@
+
+@import url("./reset.css");
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import url("./base.css");
+
+@import url("./header.css");
+
+@import url("./main.css");
+
+@import url("./canvas.css");
+
+@import url("./showSensors.css");

@@ -1,0 +1,10 @@
+
+html{
+    background-color: #d8d4d4;
+}
+
+.container{
+    max-width:1200px;
+    margin-inline:auto;
+    padding-inline:15px;
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/style.css">
+    <title>Practice</title>
+</head>
+
+<body>
+    <header class="header">
+        <h1 class="header__title">Практика</h1>
+    </header>
+    <main class="main">
+        <div class="container">
+
+            <article class="dataBlock">
+                <section class="dataBlock__data">
+                    <h2 class="dataBlock__data-title dataBlock__title">Выберите Файл, из которого хотите извлечь данные</h2>
+                     <div class="dataBlock__data-customInput">
+                        <button class="dataBlock__data-InputButton">Выберите файл</button>
+                        <input type="file" class="dataBlock__data-input">
+                     </div>
+                    <label for="" class="dataBlock__data-label"></label>
+                </section>
+                <section class="dataBlock__device">
+                    <h2 class="dataBlock__device-title dataBlock__title">Приборы , содержащиеся в данном файле:</h2>
+                    <div class="dataBlock__device-grid">
+                            <!-- ... -->
+                    </div>
+                </section>
+            </article>
+
+            <article class="graphicBlock">  
+                <canvas class="graphicBlock__drawing"></canvas>
+            </article>
+
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./source/graphic.js"></script>
+    <script type="module" src="./source/main.js"></script>
+</body>
+
+</html>

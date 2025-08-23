@@ -1,0 +1,39 @@
+
+.showSensors {}
+
+.showSensors__title{
+    font-family:Montserrat, sans-serif;
+    font-size:30px;
+
+    margin-block:30px;
+}
+
+.showSensors__grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    gap:15px;
+}
+
+.showSensors__grid-button{
+    padding:10px 10px;
+
+    background-color: #3ba6a8;
+    color:rgb(0, 0, 0);
+
+    font-family:Montserrat, sans-serif;
+    font-size:14px;
+    font-weight: 500;
+
+    border-radius:10px;
+
+    transition: 0.5s ease;
+}
+
+.showSensors__grid-button:hover{
+    background-color: #a24747;
+}
+
+.showSensors__grid-button--actived{
+    background-color: #3abe2f;
+}
