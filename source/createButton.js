@@ -57,8 +57,11 @@ const getPatternSensors = (e, data) => {
 
 export function EventListenerForButtons(data) {
 
+    // датчики , созданные кнопками
+    let groupSensors = {};
+    
     document.addEventListener("click", (e) => {
-
+        
         if (!e.target.classList.contains("dataBlock__device-button")) {
             return;
         }
@@ -66,20 +69,51 @@ export function EventListenerForButtons(data) {
         const button = e.target;
         button.classList.toggle("dataBlock__device-button--actived");
 
-        console.log(button);
-        
+        // активация данной кнопки
+
         if (button.classList.contains("dataBlock__device-button--actived")){
             
-            graphicBlock.prepend(getPatternSensors(e, data));
+            let patternSensors = getPatternSensors(e, data);
+            groupSensors[button.textContent] = patternSensors;
+            
+            graphicBlock.prepend(patternSensors);
         }        
 
         else{
 
-            [...document.querySelectorAll(".showSensors")].forEach((el) =>{
+            // деактивация данной кнопки
+            groupSensors[button.textContent].querySelectorAll(".showSensors__grid-button").forEach( sensor => {                
+                
+                if (sensor.classList.contains("showSensors__grid-button--actived")){
+
+                    const datasets = chart.data.datasets;
+
+                    for (let i = 0; i < datasets.length; i ++){
+
+                        if (datasets[i].label === sensor.textContent){
+
+                            colorsForGraphic[datasets[i].borderColor] = false;
+                            
+                            datasets.splice(i, 1);                            
+                        }
+                    }
+                }   
+            })
+
+            document.querySelectorAll(".showSensors").forEach((el) =>{
                 
                 if (button.textContent === el.firstChild.textContent)
                     el.remove();
-            })
+            });            
+
+
+            delete groupSensors[button.textContent];
+
+            if (Object.values(colorsForGraphic).every(el => el === false))
+                 chart.data.labels = null;
+            
+            chart.update();
+            
         }
     })
 }

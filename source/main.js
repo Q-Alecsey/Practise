@@ -1,6 +1,7 @@
 
 import {createButton, EventListenerForButtons} from "./createButton.js";
 import {findSensor} from "./connectSensors.js";
+import {connectCheckBox} from "./checkbox.js";
 
 let data; // data from file; 
 
@@ -60,12 +61,12 @@ inputFile.addEventListener("change", async (e) =>{
             buttonDevices.add(data[item].uName)
         }
 
-        // Функции
+        // Функции из сторонних файлов
         
         buttonDevices.forEach(el => createButton(el)); 
         EventListenerForButtons(data);
         findSensor(data);
-
+        connectCheckBox(data);
     });
 
     reader.readAsText(file);

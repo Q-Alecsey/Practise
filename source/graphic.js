@@ -4,16 +4,20 @@
 const canvas = document.querySelector(".graphicBlock__drawing");
 const context = canvas.getContext("2d");
 
+// для красоты
+const colorsForGraphic = {
+    "#000000":false,
+    "#FF0000":false, 
+    "#00FF00":false, 
+    "#0000FF":false, 
+    "#007b5d":false,
+};
+
 const configGraphic = {
     type: 'line',
     data: {
         labels: null, // labels -> отображение по оси X
-        datasets:[{
-            label:'Неопределено', // Название графика
-            data:null,
-            pointStyle:false,
-            borderWidth:2,
-        }]
+        datasets:[],
     },
     options:{
         scales:{
