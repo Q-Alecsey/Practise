@@ -13,8 +13,33 @@ const colorsForGraphic = {
     "#007b5d":false,
 };
 
+// Сравнение дат
+
+let startDate;
+let endDate;
+
+// Если date2 >= date1 , то true , иначе false
+function CompareDates(date1 , date2){
+
+    date1 = date1.split(/[:-\s]/g).map(el => +el);
+    date2 = date2.split(/[:-\s]/g).map(el => +el);
+
+    for (let i = 0; i < date1.length; i ++){
+      
+      if (date1[i] > date2[i])
+        return false;
+      
+      if (date1[i] < date2[i])
+        return true;
+      
+    }
+    return true;
+}
+
+//
+
 const configGraphic = {
-    type: 'line',
+    type:'line',
     data: {
         labels: null, // labels -> отображение по оси X
         datasets:[],
@@ -37,5 +62,5 @@ const configGraphic = {
     }
 }
 
-let chart = new Chart(context, configGraphic);
+let chart = new Chart(context, Object.assign(configGraphic));
 

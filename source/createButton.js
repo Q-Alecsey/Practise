@@ -15,7 +15,7 @@ export function createButton(el) {
 
 
 // Шаблон для создания датчиков у прибора
-const getPatternSensors = (e, data) => {    
+const getPatternSensors = (e, data) => {        
 
     const section = document.createElement("section");
     section.classList.add("showSensors");
@@ -65,23 +65,22 @@ export function EventListenerForButtons(data) {
         if (!e.target.classList.contains("dataBlock__device-button")) {
             return;
         }
-
+        
         const button = e.target;
-        button.classList.toggle("dataBlock__device-button--actived");
+        button.classList.toggle("dataBlock__device-button--actived");        
 
         // активация данной кнопки
-
+        
         if (button.classList.contains("dataBlock__device-button--actived")){
-            
+
             let patternSensors = getPatternSensors(e, data);
             groupSensors[button.textContent] = patternSensors;
             
             graphicBlock.prepend(patternSensors);
         }        
-
-        else{
-
-            // деактивация данной кнопки
+        
+        else{            
+            // деактивация данной кнопки            
             groupSensors[button.textContent].querySelectorAll(".showSensors__grid-button").forEach( sensor => {                
                 
                 if (sensor.classList.contains("showSensors__grid-button--actived")){

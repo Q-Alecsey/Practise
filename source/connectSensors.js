@@ -43,7 +43,7 @@ export function findSensor(data){
             // Заполнение данными оси X , Y
             for (let item of Object.values(data)){
 
-                if (item.uName === titleDevice){                
+                if (item.uName === titleDevice && CompareDates(startDate, item.Date) && CompareDates(item.Date, endDate)){                
 
                     dataX.push(item.Date);
                     dataY.push(item.data[sensor.textContent]);
@@ -74,9 +74,17 @@ export function findSensor(data){
                     borderWidth:2,
                     borderColor: color,
                 }
-            );
+            );            
             
-            chart.update();            
+            document.querySelectorAll("input[type='checkbox']").forEach( el =>{
+                
+                if (el.checked){                    
+
+                    el.dispatchEvent(new Event("change", {bubbles:true}));
+                }
+            })
+
+            chart.update();      
         }
 
         else{

@@ -33,21 +33,57 @@
             </article>
 
             <article class="graphicBlock">  
+                <section class="customTime">
+                <h2 class="customTime__title">Задать временной диапазон</h2>
+                <h2 class="customTime__dateFile"></h2>
+                <h2 class="customTime__comment">Шаблон даты: yyyy-mm-dd hh:mm:ss (Пример: 2025-08-04 05:05:02)</h2>
+                <div class="customTime__field">
+                    <input type="text" class="customTime__start customTime__input" placeholder="Начальная дата">
+                    <svg class="customTime__svg" width="50" height="50" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#2dd4bf" />
+                            <stop offset="50%" stop-color="#0ea5e9" />
+                            <stop offset="100%" stop-color="#0d9488" />
+                            </linearGradient>
+                        </defs>
+
+                        <!-- Стрелка повернутая на 180 градусов (направо) -->
+                        <path d="M82.5,63.5 
+                                L42.5,103.5 
+                                C40.5,105.5 36.5,105.5 34.5,103.5 
+                                C32.5,101.5 32.5,97.5 34.5,95.5 
+                                L66.5,63.5 
+                                L34.5,31.5 
+                                C32.5,29.5 32.5,25.5 34.5,23.5 
+                                C36.5,21.5 40.5,21.5 42.5,23.5 
+                                L82.5,63.5Z" 
+                                fill="url(#arrowGradient)"/>
+                    </svg>
+                    <input type="text" class="customTime__end customTime__input" placeholder="Конечная дата">
+                </div>
+                <div class="customTime__wrapperButton">
+                    <button class="customTime__button glow-on-hover">Задать Диапазон</button>
+                </div>
+                </section>
                 <canvas class="graphicBlock__drawing"></canvas>
             </article>
 
             <article class="settingsGraphic">
                 <label>
-                    <input type="checkbox" data-js-perhour="1" class="settingsGraphic__perhour"> Осреднить за час
+                    <input type="checkbox" data-js-perNumber="1" class="settingsGraphic__perhour"> Осреднить за час
                 </label>
                 <label>
-                    <input type="checkbox" data-js-perthreehour="3" class="settingsGraphic__perthreehours"> Осреднить за 3 часа
+                    <input type="checkbox" data-js-perNumber="3" class="settingsGraphic__perthreehours"> Осреднить за 3 часа
                 </label>
                 <label>
-                    <input type="checkbox" data-js-perday="24" class="settingsGraphic__perday"> Осреднить за сутки
+                    <input type="checkbox" data-js-perNumber="24" class="settingsGraphic__perday"> Осреднить за сутки
                 </label>
                 <label>
-                    <input type="checkbox" data-js-minmax class="settingsGraphic__minmax"> Учитывать только min и max параметры
+                    <input type="checkbox" data-js-perNumber="24" class="settingsGraphic__min"> Min параметры за сутки
+                </label>
+                <label>
+                    <input type="checkbox" data-js-perNumber="24" class="settingsGraphic__max"> Max параметры за сутки
                 </label>
                 <label>
                     <input type="checkbox" class="settingsGraphic__barGraph"> Столбчатый график

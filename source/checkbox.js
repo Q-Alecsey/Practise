@@ -2,95 +2,186 @@
 export function connectCheckBox(data){
 
     document.addEventListener("change", (e) =>{
-        
+                
         const activedSensors = [...document.querySelectorAll(".showSensors__grid-button--actived")];
 
         if (activedSensors.length === 0){
+            return;
+        }
 
-            // Можно что-то добавить!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if (e.target.classList.contains("settingsGraphic__barGraph")){
+            
+            if (e.target.checked)
+                chart.config.type = "bar";
+            else
+                chart.config.type = "line";
+            
+            chart.update();
             return;
         }
 
         const checkbox = e.target;
+        const dataJS = +checkbox.dataset.jsPernumber;        
         
-        // Подключение checkbox'a 'осреднить за час'
-        if (checkbox.classList.contains('settingsGraphic__perhour')){
+        if (checkbox.checked){ 
             
-            if (checkbox.checked){ 
-
-                const dataXAveragedPerHour = [];
-                // Осредняем данные для оси X
-                for (let value of Object.values(data)){
-
-                    let date = value.Date.split(/[-:\s]/g);
-                    let stringDate = `${date[0]}-${date[1]}-${date[2]} ${date[3]}:00:00`
-
-                    if (!dataXAveragedPerHour.includes(stringDate)){
-                        dataXAveragedPerHour.push(stringDate);
-                    }
-                }                
-
-                chart.data.labels = dataXAveragedPerHour.slice(0,-1);
-
-                // Осредняем данные для каждого датчика
-                for (let actSensor of activedSensors){
-
-                    let dataYAveragedPerHour = [];
-                    let dataYperHour = [];
-
-                    const titleDevice = actSensor.parentElement.previousElementSibling.textContent;
-
-                    let currentHour = +data["0"].Date.split(/[-:\s]/g)[3];                    
-
-                    for (let value of Object.values(data)){                                                                         
-                        if (!(value.uName === titleDevice))
-                            continue;
-                        
-                        let hour = +value.Date.split(/[-:\s]/g)[3];                         
-
-                        if (currentHour === hour){  
-
-                            dataYperHour.push(value.data[actSensor.textContent]);                            
-                        }
-                        else{
-                            dataYAveragedPerHour.push(dataYperHour.reduce((a, e) =>a +e, 0)/ dataYperHour.length);
-                                
-                            currentHour = hour;
-                            dataYperHour = [value.data[actSensor.textContent]];         
-                        }
-                    } 
+            // Определяем currentHour ("час" , который удовлетворяет временным рамкам)
+            let currentHour;
+            for (let value of Object.values(data)){
+                if (CompareDates(startDate, value.Date) && CompareDates(value.Date, endDate)){   
                     
-                    //Вставляем данные в график
-                    for (let i = 0; i < chart.data.datasets.length; i ++){
-
-                        if  (chart.data.datasets[i].label === actSensor.textContent){
-
-                            chart.data.datasets[i].data = dataYAveragedPerHour;
-                        }
-                    }                    
-                }            
-                chart.update();
-            }
-
-            else{
-
-                for (let actSensor of activedSensors){
-
-                    actSensor.dispatchEvent(new CustomEvent("click", {
-                        bubbles:true,
-                        detail:{
-                            NotToggled:true, // не переключаем датчик 
-                        }
-                    }));
-
+                    currentHour = +value.Date.split(/[-:\s]/g)[3];
+                    console.log(currentHour);
+                    break;
                 }
+            }            
+
+            let countHours = 0;
+            let firstDevice = data["0"].uName;
+
+            const dataXAveragedPerNumber = [];
+            // Осредняем данные для оси X
+            for (let value of Object.values(data)){
+
+                if (firstDevice !== value.uName)
+                    break;
+
+                let date = value.Date.split(/[-:\s]/g);
+                let stringDate = `${date[0]}-${date[1]}-${date[2]} ${date[3]}:00:00`;
+                
+                if (!(CompareDates(startDate, stringDate) && CompareDates(stringDate, endDate)))
+                    continue;
+
+                if (currentHour !== +date[3]){
+                    
+                    countHours++;
+                    currentHour = +date[3];
+                }
+                
+                if (countHours === dataJS){
+
+                    if (!dataXAveragedPerNumber.includes(stringDate))
+                        dataXAveragedPerNumber.push(stringDate);
+                    countHours = 0;
+                }
+            }                 
+
+            chart.data.labels = dataXAveragedPerNumber;
+
+            // Осредняем данные для каждого датчика
+            for (let actSensor of activedSensors){
+
+                let dataYAveragedPerNumber = [];
+                let dataYperNumber = [];
+
+                let countHours = 0;
+
+                // Определяем currentHour ("час" , который удовлетворяет временным рамкам)
+                let currentHour;
+                for (let value of Object.values(data)){
+                    if (CompareDates(startDate, value.Date) && CompareDates(value.Date, endDate)){
+                        currentHour = +value.Date.split(/[-:\s]/g)[3];
+                        break;
+                    }
+               }              
+
+                const titleDevice = actSensor.parentElement.previousElementSibling.textContent;
+
+                for (let value of Object.values(data)){                                                                         
+                    if (!(value.uName === titleDevice))
+                        continue;
+
+                    if (!(CompareDates(startDate, value.Date) && CompareDates(value.Date, endDate)))
+                        continue;
+                    
+                    let hour = +value.Date.split(/[-:\s]/g)[3];      
+
+                    if (currentHour !== hour){
+                    
+                        countHours++;
+                        currentHour = hour;
+                    }
+                    
+                    if (countHours === dataJS){     
+                        
+                        if (checkbox.classList.contains("settingsGraphic__min")){
+
+                            dataYAveragedPerNumber.push(findMin(dataYperNumber));
+                        }
+
+                        else if (checkbox.classList.contains("settingsGraphic__max")){
+
+                            dataYAveragedPerNumber.push(findMax(dataYperNumber));
+                        }
+
+                        else{
+                            
+                            dataYAveragedPerNumber.push(dataYperNumber.reduce((a, e) =>a + e, 0)/ dataYperNumber.length);
+                        }
+
+                        dataYperNumber = [];
+                        countHours = 0;
+                    }
+
+                    dataYperNumber.push(value.data[actSensor.textContent]);                   
+                }                 
+                
+                //Вставляем данные в график
+                for (let i = 0; i < chart.data.datasets.length; i ++){
+
+                    if  (chart.data.datasets[i].label === actSensor.textContent){
+
+                        chart.data.datasets[i].data = dataYAveragedPerNumber;
+                    }
+                }                    
+            }            
+            chart.update();
+        }
+
+        else{
+
+            for (let actSensor of activedSensors){
+
+                actSensor.dispatchEvent(new CustomEvent("click", {
+                    bubbles:true,
+                    detail:{
+                        NotToggled:true, // не переключаем датчик 
+                    }
+                }));
+
             }
-            return;
         }
+        return;
+        
+    });
+}
 
-        //Осредняем за 3 часа
-        if (checkbox.classList.contains('settingsGraphic__perthreehours')){
+function findMax(array){
 
+    let max = array[0];
+
+    for (let item of array){
+
+        if (max < item){
+
+            max = item;
         }
-    })
+    }    
+
+    return max;
+}
+
+function findMin(array){
+
+    let min = array[0];
+
+    for (let item of array){
+
+        if (min > item){
+
+            min = item;
+        }
+    }
+
+    return min;
 }
