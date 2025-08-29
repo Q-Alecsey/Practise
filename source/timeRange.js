@@ -1,5 +1,5 @@
 
-export function timeRange(data){
+export function timeRange(){
 
     document.addEventListener("click", e =>{
 
@@ -10,8 +10,8 @@ export function timeRange(data){
         startDate = document.querySelector(".customTime__start").value;
         endDate = document.querySelector(".customTime__end").value;
         
-        if (startDate === "") startDate = Object.values(data).at(0).Date
-        if (endDate === "") endDate = Object.values(data).at(-1).Date;
+        if (startDate === "") startDate = Object.values(this.data).at(0).Date
+        if (endDate === "") endDate = Object.values(this.data).at(-1).Date;
                 
         let activedSensors = [...document.querySelectorAll(".showSensors__grid-button--actived")];
         

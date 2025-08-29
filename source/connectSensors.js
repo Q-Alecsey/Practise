@@ -1,6 +1,6 @@
 
 // Создает график исходя из датчика
-export function findSensor(data){
+export function findSensor(){
 
     document.addEventListener("click", (e) =>{
 
@@ -41,7 +41,7 @@ export function findSensor(data){
             let dataY = [];
 
             // Заполнение данными оси X , Y
-            for (let item of Object.values(data)){
+            for (let item of Object.values(this.data)){
 
                 if (item.uName === titleDevice && CompareDates(startDate, item.Date) && CompareDates(item.Date, endDate)){                
 

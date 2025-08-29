@@ -55,7 +55,7 @@ const getPatternSensors = (e, data) => {
 // Подключение кнопок к EventListener для отображения датчиков
 // (а также их отключение)
 
-export function EventListenerForButtons(data) {
+export function EventListenerForButtons() {
 
     // датчики , созданные кнопками
     let groupSensors = {};
@@ -73,7 +73,7 @@ export function EventListenerForButtons(data) {
         
         if (button.classList.contains("dataBlock__device-button--actived")){
 
-            let patternSensors = getPatternSensors(e, data);
+            let patternSensors = getPatternSensors(e, this.data);
             groupSensors[button.textContent] = patternSensors;
             
             graphicBlock.prepend(patternSensors);

@@ -24,6 +24,12 @@ const buttonFile = document.querySelector(".dataBlock__data-InputButton");
 // Данная переменная служит для того , чтобы функции из других файлов вызывались ровно один раз
 let alreadyDone = false
 
+// Переменные , служащие для доступа к data
+let EvForButtons;
+let tRange;
+let fSensor;
+let cCheckBox;
+
 // Подключение Кнопки("Выберите Файл") к прослушивателю
 inputFile.addEventListener("change", async (e) =>{
 
@@ -81,13 +87,28 @@ inputFile.addEventListener("change", async (e) =>{
         
         buttonDevices.forEach(el => createButton(el)); 
         
-        if (!alreadyDone){
-            EventListenerForButtons(data);
-            timeRange(data);
-            findSensor(data);
-            connectCheckBox(data);
+        if (alreadyDone){
+            EvForButtons.data = data;
+            tRange.data = data;
+            fSensor.data = data;
+            cCheckBox.data = data;
+        }
+
+        else{
+            EvForButtons = new EventListenerForButtons();
+            EvForButtons.data = data;
+
+            tRange = new timeRange();
+            tRange.data = data;
+
+            fSensor = new findSensor();
+            fSensor.data = data;
+
+            cCheckBox = new connectCheckBox();
+            cCheckBox.data = data;
 
             alreadyDone = true;
+
         }
     });
 

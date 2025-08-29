@@ -1,5 +1,5 @@
 
-export function connectCheckBox(data){
+export function connectCheckBox(){
 
     document.addEventListener("change", (e) =>{
                 
@@ -27,7 +27,7 @@ export function connectCheckBox(data){
             
             // Определяем currentHour ("час" , который удовлетворяет временным рамкам)
             let currentHour;
-            for (let value of Object.values(data)){
+            for (let value of Object.values(this.data)){
                 if (CompareDates(startDate, value.Date) && CompareDates(value.Date, endDate)){   
                     
                     currentHour = +value.Date.split(/[-:\s]/g)[3];
@@ -37,11 +37,11 @@ export function connectCheckBox(data){
             }            
 
             let countHours = 0;
-            let firstDevice = data["0"].uName;
+            let firstDevice = this.data["0"].uName;
 
             const dataXAveragedPerNumber = [];
             // Осредняем данные для оси X
-            for (let value of Object.values(data)){
+            for (let value of Object.values(this.data)){
 
                 if (firstDevice !== value.uName)
                     break;
@@ -78,7 +78,7 @@ export function connectCheckBox(data){
 
                 // Определяем currentHour ("час" , который удовлетворяет временным рамкам)
                 let currentHour;
-                for (let value of Object.values(data)){
+                for (let value of Object.values(this.data)){
                     if (CompareDates(startDate, value.Date) && CompareDates(value.Date, endDate)){
                         currentHour = +value.Date.split(/[-:\s]/g)[3];
                         break;
@@ -87,7 +87,7 @@ export function connectCheckBox(data){
 
                 const titleDevice = actSensor.parentElement.previousElementSibling.textContent;
 
-                for (let value of Object.values(data)){                                                                         
+                for (let value of Object.values(this.data)){                                                                         
                     if (!(value.uName === titleDevice))
                         continue;
 
